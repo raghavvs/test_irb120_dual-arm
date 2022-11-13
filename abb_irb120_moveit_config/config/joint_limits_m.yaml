@@ -1,4 +1,4 @@
-joint_limits:
+joint_limits_m:
   joint_2_m:
     has_velocity_limits: true
     max_velocity: 4.36332

@@ -1,5 +1,5 @@
 controller_list:
-  - name: /mp/fake_mp_controller
+  - name: fake_mp_controller
     joints:
       - joint_2
       - joint_3
@@ -8,7 +8,7 @@ controller_list:
       - joint_6
       - joint_7
       
-  - name: /mp_m/fake_mp_m_controller
+  - name: fake_mp_m_controller
     joints:
       - joint_2_m
       - joint_3_m
