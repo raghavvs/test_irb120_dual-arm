@@ -145,6 +145,8 @@ manipulator:
     - LazyPRMstarkConfigDefault
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
+  projection_evaluator: joints(joint_2,joint_3)
+  longest_valid_segment_fraction: 0.005
 manipulator_m:
   planner_configs:
     - SBLkConfigDefault
@@ -170,30 +172,32 @@ manipulator_m:
     - LazyPRMstarkConfigDefault
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
-# dual_arm:
-#   planner_configs:
-#     - SBLkConfigDefault
-#     - ESTkConfigDefault
-#     - LBKPIECEkConfigDefault
-#     - BKPIECEkConfigDefault
-#     - KPIECEkConfigDefault
-#     - RRTkConfigDefault
-#     - RRTConnectkConfigDefault
-#     - RRTstarkConfigDefault
-#     - TRRTkConfigDefault
-#     - PRMkConfigDefault
-#     - PRMstarkConfigDefault
-#     - FMTkConfigDefault
-#     - BFMTkConfigDefault
-#     - PDSTkConfigDefault
-#     - STRIDEkConfigDefault
-#     - BiTRRTkConfigDefault
-#     - LBTRRTkConfigDefault
-#     - BiESTkConfigDefault
-#     - ProjESTkConfigDefault
-#     - LazyPRMkConfigDefault
-#     - LazyPRMstarkConfigDefault
-#     - SPARSkConfigDefault
-#     - SPARStwokConfigDefault
-  projection_evaluator: joints(joint_2,joint_3, joint_2_m, joint_3_m)
+  projection_evaluator: joints(joint_2_m,joint_3_m)
+  longest_valid_segment_fraction: 0.005
+dual_arm:
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
+    - FMTkConfigDefault
+    - BFMTkConfigDefault
+    - PDSTkConfigDefault
+    - STRIDEkConfigDefault
+    - BiTRRTkConfigDefault
+    - LBTRRTkConfigDefault
+    - BiESTkConfigDefault
+    - ProjESTkConfigDefault
+    - LazyPRMkConfigDefault
+    - LazyPRMstarkConfigDefault
+    - SPARSkConfigDefault
+    - SPARStwokConfigDefault
+  projection_evaluator: joints(joint_2,joint_3)
   longest_valid_segment_fraction: 0.005
