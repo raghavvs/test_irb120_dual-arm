@@ -46,9 +46,23 @@
   <!-- publish the robot state (tf transforms) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-  <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
+  <group ns="manipulator">
+    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/manipulator_controller/follow_joint_trajectory"/>
+    <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
+      <arg name="debug" default="false" />
+    </include>
+  </group>
+
+  <group ns="manipulator_m">
+    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/manipulator_m_controller/follow_joint_trajectory"/>
+    <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
+      <arg name="debug" default="false" />
+    </include>
+  </group>
+  
+<!--   <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
     <arg name="publish_monitored_planning_scene" value="true" />
-  </include>
+  </include> -->
 
   <include file="$(find abb_irb120_moveit_config)/launch/moveit_rviz.launch">
     <arg name="config" value="true"/>
