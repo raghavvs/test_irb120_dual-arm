@@ -32,14 +32,14 @@
       <param name="port" value="11000" />
     </node>
     
-    <remap from="/follow_joint_trajectory" to="mp_controller/follow_joint_trajectory"/>
+    <!-- <remap from="/joint_trajectory_action" to="/mp_controller/joint_trajectory_action"/> -->
 
 <!--     <node pkg="moveit_ros_move_group" type="move_group" name="mp" output="screen">
       <remap from="joint_states" to="mp/joint_states"/>
     </node> -->
 
     <node pkg="industrial_robot_client" type="joint_trajectory_action" name="joint_trajectory_action"/>
-    <node pkg="topic_tools" type="relay" name="mp_relay" args="mp/joint_states/joint_states"/>
+    <node pkg="topic_tools" type="relay" name="mp_relay" args="mp/joint_states"/>
   </group>
 
   <group ns="mp_m">
@@ -55,14 +55,14 @@
       <param name="port" value="12000" />
     </node>
 
-    <remap from="/follow_joint_trajectory" to="mp_m_controller/follow_joint_trajectory"/>
+    <!-- <remap from="/joint_trajectory_action" to="/mp_m_controller/joint_trajectory_action"/> -->
 
 <!--     <node pkg="moveit_ros_move_group" type="move_group" name="mp_m" output="screen">
       <remap from="joint_states" to="mp_m/joint_states"/>
     </node> -->
 
     <node pkg="industrial_robot_client" type="joint_trajectory_action" name="joint_trajectory_action"/>
-    <node pkg="topic_tools" type="relay" name="mp_m_relay" args="mp_m/joint_states/joint_states"/>
+    <node pkg="topic_tools" type="relay" name="mp_m_relay" args="mp_m/joint_states"/>
   </group>
 
 </launch>
