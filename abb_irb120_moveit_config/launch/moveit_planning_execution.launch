@@ -7,17 +7,13 @@
            controller_joint_names: [joint_1, joint_2, ... joint_N] 
        - Update with joint names for your robot (in order expected by rbt controller)
        - and uncomment the following line: -->
-  <rosparam command="load" file="$(find abb_irb120_support)/config/joint_names_irb120_3_58.yaml" />
+
+  <!-- <rosparam command="load" file="$(find abb_irb120_support)/config/joint_names_irb120_3_58.yaml" /> -->
  
   <!-- the "sim" argument controls whether we connect to a Simulated or Real robot -->
   <!--  - if sim=false, a robot_ip argument is required -->
   <arg name="sim" default="true" />
   <arg name="robot_ip" unless="$(arg sim)" />
-
-<!--   <arg name="mp_state_port" value="11002"/>
-  <arg name="mp_motion_port" value="11000"/>
-  <arg name="mp_m_state_port" value="12002"/>
-  <arg name="mp_m_motion_port" value="12000"/>  -->
 
   <!-- By default, we do not start a database (it can be large) -->
   <arg name="db" default="false" />
@@ -46,11 +42,15 @@
   <!-- publish the robot state (tf transforms) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-  <group ns="mp">
+<!--   <group ns="mp">
     <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/mp_controller/follow_joint_trajectory"/>
     <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
       <arg name="debug" default="false" />
     </include>
+
+    <node pkg="moveit_ros_move_group" type="move_group" name="any_name" output="screen">
+      <remap from="joint_states" to="robot/joint_states"/>
+    </node>
   </group>
 
   <group ns="mp_m">
@@ -58,15 +58,15 @@
     <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
       <arg name="debug" default="false" />
     </include>
-  </group>
 
-  <node pkg="moveit_ros_move_group" type="move_group" name="any_name" output="screen">
-    <remap from="joint_states" to="robot/joint_states"/>
-  </node>
+    <node pkg="moveit_ros_move_group" type="move_group" name="any_name" output="screen">
+      <remap from="joint_states" to="robot/joint_states"/>
+    </node>
+  </group> -->
 
-<!--   <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
+  <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
     <arg name="publish_monitored_planning_scene" value="true" />
-  </include> -->
+  </include>
 
   <include file="$(find abb_irb120_moveit_config)/launch/moveit_rviz.launch">
     <arg name="config" value="true"/>

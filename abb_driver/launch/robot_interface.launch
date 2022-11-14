@@ -32,6 +32,12 @@
       <param name="port" value="11000" />
     </node>
     
+    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/mp_controller/follow_joint_trajectory"/>
+
+    <node pkg="moveit_ros_move_group" type="move_group" name="mp" output="screen">
+      <remap from="joint_states" to="mp/joint_states"/>
+    </node>
+
     <node pkg="industrial_robot_client" type="joint_trajectory_action" name="joint_trajectory_action"/>
     <node pkg="topic_tools" type="relay" name="mp_relay" args="/mp/joint_states /joint_states"/>
   </group>
@@ -47,6 +53,12 @@
     </node>
     <node pkg="abb_driver" type="motion_download_interface" name="motion_download_interface">
       <param name="port" value="12000" />
+    </node>
+
+    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/mp_m_controller/follow_joint_trajectory"/>
+
+    <node pkg="moveit_ros_move_group" type="move_group" name="mp_m" output="screen">
+      <remap from="joint_states" to="mp_m/joint_states"/>
     </node>
 
     <node pkg="industrial_robot_client" type="joint_trajectory_action" name="joint_trajectory_action"/>
