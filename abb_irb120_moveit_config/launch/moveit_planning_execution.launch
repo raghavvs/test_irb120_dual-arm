@@ -46,20 +46,24 @@
   <!-- publish the robot state (tf transforms) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-  <group ns="manipulator">
-    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/manipulator_controller/follow_joint_trajectory"/>
+  <group ns="mp">
+    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/mp_controller/follow_joint_trajectory"/>
     <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
       <arg name="debug" default="false" />
     </include>
   </group>
 
-  <group ns="manipulator_m">
-    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/manipulator_m_controller/follow_joint_trajectory"/>
+  <group ns="mp_m">
+    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/mp_m_controller/follow_joint_trajectory"/>
     <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
       <arg name="debug" default="false" />
     </include>
   </group>
-  
+
+  <node pkg="moveit_ros_move_group" type="move_group" name="any_name" output="screen">
+    <remap from="joint_states" to="robot/joint_states"/>
+  </node>
+
 <!--   <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
     <arg name="publish_monitored_planning_scene" value="true" />
   </include> -->

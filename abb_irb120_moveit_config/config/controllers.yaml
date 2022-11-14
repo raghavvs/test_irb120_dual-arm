@@ -1,5 +1,5 @@
 controller_list:
-  - name: controller/joint_traj_pos_controller_mp
+  - name: mp_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     joints: 
@@ -10,7 +10,7 @@ controller_list:
       - joint_6 
       - joint_7 
 
-  - name: controller/joint_traj_pos_controller_mp_m
+  - name: mp_m_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     joints: 
