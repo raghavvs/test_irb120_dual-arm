@@ -42,27 +42,9 @@
   <!-- publish the robot state (tf transforms) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-<!--   <group ns="mp">
-    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/mp_controller/follow_joint_trajectory"/>
-    <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
-      <arg name="debug" default="false" />
-    </include>
-
-    <node pkg="moveit_ros_move_group" type="move_group" name="any_name" output="screen">
-      <remap from="joint_states" to="robot/joint_states"/>
-    </node>
-  </group>
-
-  <group ns="mp_m">
-    <remap from="/follow_joint_trajectory" to="abb_irb120_3_58/mp_m_controller/follow_joint_trajectory"/>
-    <include file="$(find abb_irb120_moveit_config)/launch/move_group.launch">
-      <arg name="debug" default="false" />
-    </include>
-
-    <node pkg="moveit_ros_move_group" type="move_group" name="any_name" output="screen">
-      <remap from="joint_states" to="robot/joint_states"/>
-    </node>
-  </group> -->
+  <remap from="joint_states" to="mp/joint_states"/>
+ 
+  <remap from="joint_states" to="mp_m/joint_states"/>
 
   <remap from="/joint_trajectory_action" to="/mp_controller/joint_trajectory_action"/>
 
