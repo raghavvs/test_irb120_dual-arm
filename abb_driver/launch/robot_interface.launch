@@ -39,7 +39,7 @@
     </node> -->
 
     <node pkg="industrial_robot_client" type="joint_trajectory_action" name="joint_trajectory_action"/>
-    <node pkg="topic_tools" type="relay" name="mp_relay" args="mp/joint_states"/>
+    <node pkg="topic_tools" type="relay" name="mp_relay" args="/mp/joint_states"/>
   </group>
 
   <group ns="mp_m">
@@ -62,7 +62,7 @@
     </node> -->
 
     <node pkg="industrial_robot_client" type="joint_trajectory_action" name="joint_trajectory_action"/>
-    <node pkg="topic_tools" type="relay" name="mp_m_relay" args="mp_m/joint_states"/>
+    <node pkg="topic_tools" type="relay" name="mp_m_relay" args="/mp_m/joint_states"/>
   </group>
 
 </launch>

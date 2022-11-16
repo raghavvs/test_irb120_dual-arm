@@ -6,8 +6,7 @@ controller_list:
       - joint_4
       - joint_5
       - joint_6
-      - joint_7
-      
+      - joint_7 
   - name: fake_mp_m_controller
     joints:
       - joint_2_m
@@ -16,7 +15,6 @@ controller_list:
       - joint_5_m
       - joint_6_m
       - joint_7_m
-
   - name: fake_dual_arm_controller
     joints:
       - joint_2
