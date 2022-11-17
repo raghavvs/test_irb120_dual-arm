@@ -1,5 +1,3 @@
-<launch>
-
   <!-- This launch file provides a socket-based connection to ABB robots
        using the standard ROS Industrial simple_message protocol.
          ** a new parameter is added to control J23-linkage correction **
@@ -13,56 +11,64 @@
   -->
 
   <!-- robot_ip: IP-address of the robot's socket-messaging server -->
+<launch>
+  <!-- J23 not coupled for irb120, IP address found manually -->
   <arg name="robot_ip" default="192.168.125.1"/>
+  <arg name="J23_coupled" default="false"/> 
+  
+  <!-- ports for socket communication in TCP -->
+  <arg name="mp_state_port" value="11002"/>
+  <arg name="mp_motion_port" value="11000"/>
+  <arg name="mp_m_state_port" value="12002"/>
+  <arg name="mp_m_motion_port" value="12000"/> 
 
-  <!-- J23_coupled: set TRUE to apply correction for J2/J3 parallel linkage -->
-  <arg name="J23_coupled" default="false" />
-
+  <!-- Robot 1 -->
   <group ns="mp">
     <param name="robot_ip_address" type="str" value="$(arg robot_ip)"/>
+    
     <param name="J23_coupled" type="bool" value="$(arg J23_coupled)"/>
-
-    <rosparam command="load" file="$(find abb_irb120_support)/config/joint_names_irb120_3_58_mp.yaml" />
     
-    <node pkg="abb_driver" type="robot_state" name="robot_state">
-      <param name="port" value="11002" />
-    </node>
-
-    <node pkg="abb_driver" type="motion_download_interface" name="motion_download_interface">
-      <param name="port" value="11000" />
+    <node pkg="abb_driver"
+          type="robot_state"
+          name="robot_state">
+          <param name="port" value="$(arg mp_state_port)"/>
     </node>
     
-    <!-- <remap from="/joint_trajectory_action" to="/mp_controller/joint_trajectory_action"/> -->
-
-<!--     <node pkg="moveit_ros_move_group" type="move_group" name="mp" output="screen">
-      <remap from="joint_states" to="mp/joint_states"/>
-    </node> -->
-
-    <node pkg="industrial_robot_client" type="joint_trajectory_action" name="joint_trajectory_action"/>
-    <node pkg="topic_tools" type="relay" name="mp_relay" args="/mp/joint_states"/>
+    <node pkg="abb_driver" 
+          type="motion_download_interface"
+          name="motion_download_interface">
+          <param name="port" value="$(arg mp_motion_port)"/>
+    </node>
+          
+    <node pkg="industrial_robot_client" 
+          type="joint_trajectory_action"
+          name="joint_trajectory_action"/>
+    
   </group>
 
+
+  <!-- Robot 2 -->
   <group ns="mp_m">
     <param name="robot_ip_address" type="str" value="$(arg robot_ip)"/>
-    <param name="J23_coupled" type="bool" value="$(arg J23_coupled)"/>
-
-    <rosparam command="load" file="$(find abb_irb120_support)/config/joint_names_irb120_3_58_mp_m.yaml" />
     
-    <node pkg="abb_driver" type="robot_state" name="robot_state">
-      <param name="port" value="12002" />
+    <param name="J23_coupled" type="bool" value="$(arg J23_coupled)"/>
+    
+    <node pkg="abb_driver"
+          type="robot_state"
+          name="robot_state">
+          <param name="port" value="$(arg mp_m_state_port)"/>
     </node>
-    <node pkg="abb_driver" type="motion_download_interface" name="motion_download_interface">
-      <param name="port" value="12000" />
-    </node>
-
-    <!-- <remap from="/joint_trajectory_action" to="/mp_m_controller/joint_trajectory_action"/> -->
-
-<!--     <node pkg="moveit_ros_move_group" type="move_group" name="mp_m" output="screen">
-      <remap from="joint_states" to="mp_m/joint_states"/>
-    </node> -->
-
-    <node pkg="industrial_robot_client" type="joint_trajectory_action" name="joint_trajectory_action"/>
-    <node pkg="topic_tools" type="relay" name="mp_m_relay" args="/mp_m/joint_states"/>
+    
+    <node pkg="abb_driver"
+          type="motion_download_interface"
+          name="motion_download_interface">
+          <param name="port" value="$(arg mp_m_motion_port)"/>
+    </node>     
+          
+    <node pkg="industrial_robot_client"
+          type="joint_trajectory_action"
+          name="joint_trajectory_action"/>
   </group>
+
 
 </launch>
