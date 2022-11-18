@@ -1,4 +1,4 @@
-MODULE ROS_motion
+MODULE ROS_motion_R2
 
 ! Software License Agreement (BSD License)
 !
@@ -43,11 +43,11 @@ PROC main()
     ! Set up interrupt to watch for new trajectory
     IDelete intr_new_trajectory;    ! clear interrupt handler, in case restarted with ExitCycle
     CONNECT intr_new_trajectory WITH new_trajectory_handler;
-    IPers ROS_new_trajectory, intr_new_trajectory;
+    IPers ROS_new_trajectory_R2, intr_new_trajectory;
 
     WHILE true DO
         ! Check for new Trajectory
-        IF (ROS_new_trajectory)
+        IF (ROS_new_trajectory_R2)
             init_trajectory;
 
         ! execute all points in this trajectory
@@ -63,7 +63,6 @@ PROC main()
                 ! Execute move command
                 IF (NOT skip_move)
                     MoveAbsJ target, move_speed, \T:=trajectory{current_index}.duration, stop_mode, tool0;
-                    TPWrite "Traj time " \Num:=trajectory{current_index}.duration;
             ENDFOR
 
             trajectory_size := 0;  ! trajectory done
@@ -79,11 +78,11 @@ ENDPROC
 LOCAL PROC init_trajectory()
     clear_path;                    ! cancel any active motions
 
-    WaitTestAndSet ROS_trajectory_lock;  ! acquire data-lock
-      trajectory := ROS_trajectory;            ! copy to local var
-      trajectory_size := ROS_trajectory_size;  ! copy to local var
-      ROS_new_trajectory := FALSE;
-    ROS_trajectory_lock := FALSE;         ! release data-lock
+    WaitTestAndSet ROS_trajectory_lock_R2;  ! acquire data-lock
+      trajectory := ROS_trajectory_R2;            ! copy to local var
+      trajectory_size := ROS_trajectory_size_R2;  ! copy to local var
+      ROS_new_trajectory_R2 := FALSE;
+    ROS_trajectory_lock_R2 := FALSE;         ! release data-lock
 ENDPROC
 
 LOCAL FUNC bool is_near(robjoint target, num tol)
@@ -113,7 +112,7 @@ LOCAL PROC clear_path()
 ENDPROC
 
 LOCAL TRAP new_trajectory_handler
-    IF (NOT ROS_new_trajectory) RETURN;
+    IF (NOT ROS_new_trajectory_R2) RETURN;
     
     abort_trajectory;
 ENDTRAP

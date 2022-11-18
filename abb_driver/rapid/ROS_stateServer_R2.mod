@@ -1,4 +1,4 @@
-MODULE ROS_common(SYSMODULE)
+MODULE ROS_stateServer
 
 ! Software License Agreement (BSD License)
 !
@@ -28,21 +28,51 @@ MODULE ROS_common(SYSMODULE)
 ! CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 ! WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-RECORD ROS_joint_trajectory_pt
-	robjoint joint_pos;
-	num duration;
-ENDRECORD
+LOCAL CONST num server_port := 12002;
+LOCAL CONST num update_rate := 0.10;  ! broadcast rate (sec)
 
-CONST num MAX_TRAJ_LENGTH := 100;
+LOCAL VAR socketdev server_socket;
+LOCAL VAR socketdev client_socket;
 
-! These variables should use TestAndSet read/write protection to prevent conflicts
-PERS bool ROS_trajectory_lock := false;
-PERS bool ROS_trajectory_lock_R2 := false;
-PERS ROS_joint_trajectory_pt ROS_trajectory{MAX_TRAJ_LENGTH};
-PERS ROS_joint_trajectory_pt ROS_trajectory_R2{MAX_TRAJ_LENGTH};
-PERS num ROS_trajectory_size := 0;
-PERS num ROS_trajectory_size_R2 := 0;
-PERS bool ROS_new_trajectory := false;       ! can safely READ, but should use lock to WRITE
-PERS bool ROS_new_trajectory_R2 := false;
+PROC main()
+
+    TPWrite "StateServer: Waiting for connection.";
+	ROS_init_socket server_socket, server_port;
+    ROS_wait_for_client server_socket, client_socket;
+    
+	WHILE (TRUE) DO
+		send_joints;
+		WaitTime update_rate;
+    ENDWHILE
+
+ERROR (ERR_SOCK_TIMEOUT, ERR_SOCK_CLOSED)
+	IF (ERRNO=ERR_SOCK_TIMEOUT) OR (ERRNO=ERR_SOCK_CLOSED) THEN
+        SkipWarn;  ! TBD: include this error data in the message logged below?
+        ErrWrite \W, "ROS StateServer disconnect", "Connection lost.  Waiting for new connection.";
+        ExitCycle;  ! restart program
+	ELSE
+		TRYNEXT;
+	ENDIF
+UNDO
+ENDPROC
+
+LOCAL PROC send_joints()
+	VAR ROS_msg_joint_data message;
+	VAR jointtarget joints;
+	
+    ! get current joint position (degrees)
+	joints := CJointT();
+    
+    ! create message
+    message.header := [ROS_MSG_TYPE_JOINT, ROS_COM_TYPE_TOPIC, ROS_REPLY_TYPE_INVALID];
+    message.sequence_id := 0;
+    message.joints := joints.robax;
+    
+    ! send message to client
+    ROS_send_msg_joint_data client_socket, message;
+
+ERROR
+    RAISE;  ! raise errors to calling code
+ENDPROC
 
 ENDMODULE
