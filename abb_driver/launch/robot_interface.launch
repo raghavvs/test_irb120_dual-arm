@@ -44,6 +44,7 @@
           type="joint_trajectory_action"
           name="joint_trajectory_action"/>
     
+    <remap from="/FollowJointTrajectory" to="mp_joint_trajectory_action/FollowJointTrajectory"/>
   </group>
 
 
@@ -68,6 +69,8 @@
     <node pkg="industrial_robot_client"
           type="joint_trajectory_action"
           name="joint_trajectory_action"/>
+
+    <remap from="/FollowJointTrajectory" to="mp_m_joint_trajectory_action/FollowJointTrajectory"/>
   </group>
 
 

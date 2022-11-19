@@ -45,8 +45,8 @@
    <!-- <remap if="$(arg sim)" from="left/left_vel_based_pos_traj_controller/follow_joint_trajectory" to="fake_left_manipulator_controller/follow_joint_trajectory"/>
   <remap if="$(arg sim)" from="right/right_vel_based_pos_traj_controller/follow_joint_trajectory" to="fake_right_manipulator_controller/follow_joint_trajectory"/> -->
   
-  <remap from="/FollowJointTrajectory" to="mp_joint_trajectory_action/FollowJointTrajectory"/>
-  <remap from="/FollowJointTrajectory" to="mp_m_joint_trajectory_action/FollowJointTrajectory"/>
+  <!-- <remap from="/FollowJointTrajectory" to="mp_joint_trajectory_action/FollowJointTrajectory"/>
+  <remap from="/FollowJointTrajectory" to="mp_m_joint_trajectory_action/FollowJointTrajectory"/> -->
 
   <!-- <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false" output="screen" args="spawn joint_state_controller position_trajectory_controller" /> -->
 
